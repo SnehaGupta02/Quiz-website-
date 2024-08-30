@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style4_.css"> 
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <h1>MAKE QUIZ</h1>
+    <div id="question-container"></div>
+    <button type="button" onclick="addQuestion()">Add Question</button>
+    
+    <button id="generateBtn" type="button" onclick="generateQuiz()" style="display: none;">Generate Quiz</button>
+  </div>
+
+  <script>
+    let questionCount = 0;
+
+    function addQuestion() {
+      questionCount++;
+      const questionContainer = document.getElementById('question-container');
+      const generateBtn = document.getElementById('generateBtn');
+
+      const newQuestionDiv = document.createElement('div');
+      newQuestionDiv.classList.add('question');
+      newQuestionDiv.id = `question-${questionCount}`;
+
+      newQuestionDiv.innerHTML = `
+        <h3>Question ${questionCount}</h3>
+        <label for="q${questionCount}">Question:</label>
+        <textarea id="q${questionCount}" name="questions[]" rows="3" required></textarea>
+        <label for="marks${questionCount}">Marks:</label>
+        <input type="number" id="marks${questionCount}" name="marks[]" min="1" required>
+        <label for="picture${questionCount}">Add Picture (Optional):</label>
+        <input type="file" id="picture${questionCount}" name="pictures[]" accept="image/*" multiple>
+              
+        <div class="option-container" id="options-container-${questionCount}">
+          ${[1, 2, 3, 4].map(optionIndex => `
+            <div class="option">
+              <input type="text" id="q${questionCount}option${optionIndex}" name="options[${questionCount}][]" placeholder="Option ${optionIndex}" required>
+              <input type="radio" name="correctAnswers[${questionCount}]" value="${optionIndex}"> Correct Answer
+            </div>
+          `).join('')}
+        </div>
+        <button type="button" class="remove-question" onclick="removeQuestion(${questionCount})">Remove</button>
+      `;
+
+      questionContainer.appendChild(newQuestionDiv);
+
+      // Show the "Generate Quiz" button after adding at least one question
+      generateBtn.style.display = 'block';
+    }
+
+    function removeQuestion(questionNumber) {
+      const questionContainer = document.getElementById('question-container');
+      const generateBtn = document.getElementById('generateBtn');
+      const questionToRemove = document.getElementById(`question-${questionNumber}`);
+
+      if (questionToRemove) {
+        questionContainer.removeChild(questionToRemove);
+      }
+
+      // Hide the "Generate Quiz" button if there are no questions
+      if (questionContainer.children.length === 0) {
+        generateBtn.style.display = 'none';
+      }
+    }
+
+    function generateQuiz() {
+      const questions = document.getElementById('question-container').children;
+      const quizData = [];
+      const formData = new FormData();
+
+      // Loop through questions and collect data
+      for (let i = 0; i < questions.length; i++) {
+        const questionDiv = questions[i];
+        const questionText = questionDiv.querySelector(`#q${i + 1}`).value;
+        const marks = questionDiv.querySelector(`#marks${i + 1}`).value;
+        const optionsContainer = questionDiv.querySelector(`#options-container-${i + 1}`);
+        const options = [];
+  
+        let correctOption;
+  
+        // Loop through options and collect data
+        for (let j = 0; j < optionsContainer.children.length; j++) {
+          const optionInput = optionsContainer.children[j].querySelector(`#q${i + 1}option${j + 1}`);
+          options.push(optionInput.value);
+          // Check if the option is marked as correct
+          if (optionsContainer.children[j].querySelector(`input[type="radio"]`).checked) {
+            correctOption = j + 1; // Save the correct option index
+          }
+        }
+  
+        quizData.push({
+          question: questionText,
+          marks: marks,
+          options: options,
+          correctOption: correctOption,
+        });
+      }
+      
+      // Append quiz data to FormData
+      formData.append('quizData', JSON.stringify({ quizData: quizData }));
+
+      // Append image files to FormData
+      const imageFiles = document.querySelectorAll('input[type="file"]');
+      imageFiles.forEach(fileInput => {
+        const files = fileInput.files;
+        for (let i = 0; i < files.length; i++) {
+          formData.append('pictures[]', files[i]);
+        }
+      });
+
+      // Send the quiz information and images to the server using fetch
+      fetch('save_quiz1.php', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => response.text())
+      .then(message => {
+        console.log(message); // Log the server response
+      
+        // Display the message on the page
+        const messageContainer = document.getElementById('message-container');
+        messageContainer.textContent = message;
+      })
+      .catch(error => {
+        console.error('Error saving quiz data:', error);
+      });
+    }
+  </script>
+
+  <!-- ... (Your existing code) ... -->
+
+  <div id="message-container"></div>
+  
+</body>
+</html>

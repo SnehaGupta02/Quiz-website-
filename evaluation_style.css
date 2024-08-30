@@ -1,0 +1,50 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-image: url('evaluation.jpg'); /* Replace 'evaluation.jpg' with your image file path */
+    background-size: cover;
+    background-position: center;
+  }
+  
+  .container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); /* Box shadow for container */
+  }
+  
+  #evaluation-heading {
+    text-align: center;
+    margin-bottom: 20px;
+    color: lightseagreen; /* Updated heading color */
+    font-size: 30px; /* Increased font size */
+    font-weight: bold; /* Added font weight */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Added text shadow for emphasis */
+  }
+  
+  .teacher-name {
+    font-weight: bold; /* Make quiz number bold */
+    color: lightcoral; /* Change quiz number color */
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px; /* Add margin between tables */
+  }
+  
+  th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  th {
+    background-color: #f2f2f2;
+  }
+  
+  
+  

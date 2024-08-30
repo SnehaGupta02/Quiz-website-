@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style5_.css"> 
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="wrapper">
+  <div class="container">
+    <h1>Welcome to the Teacher's Dashboard, <span id="welcomeUsername"></span>!</h1>
+    <p>Let's make an assignment:</p>
+    <a href="quiz.html" class="quiz-link">Quiz</a>
+    
+  </div>
+  <a href="evaluation.html" id="view-performance-button">View Student Performance</a>
+</div>
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const username = urlParams.get('username');
+    const capitalizedUsername = username.toUpperCase();
+    document.getElementById('welcomeUsername').innerText = capitalizedUsername;
+  </script>
+</body>
+</html>

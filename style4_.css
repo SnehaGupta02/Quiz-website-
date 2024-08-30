@@ -1,0 +1,88 @@
+body {
+      font-family: Arial, sans-serif;
+      background-image: url('quiz.jpeg');
+      height: 100%;
+      /* Center and scale the image nicely */
+      background-position: center;
+      background-repeat: repeat-y;
+      background-size: cover;
+      color: white; /* Replace 'your-background-image-url.jpg' with the URL of your background image */
+      
+      margin: 0;
+      padding: 0;
+      
+      /* Set text color to white */
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: rgba(0, 0, 0, 0.5); /* Use rgba for a semi-transparent background */
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #3498db; /* Set heading color to a blue shade */
+    }
+
+    button {
+      background-color: #3498db; /* Set button background color */
+      color: #fff; /* Set button text color to white */
+      border: none;
+      padding: 10px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #2980b9; /* Button color on hover */
+    }
+
+    .question {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    textarea,
+    input[type="number"],
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      box-sizing: border-box;
+      margin-bottom: 10px;
+    }
+
+    .option-container {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .option {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .option input[type="radio"] {
+      margin-right: 5px;
+    }
+
+    .remove-question {
+      background-color: #d9534f;
+      color: #fff;
+      border: none;
+      padding: 10px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .remove-question:hover {
+      background-color: #c9302c;
+    }
+

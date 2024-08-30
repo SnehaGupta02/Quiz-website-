@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style_student_.css"> <!-- Link to the CSS file for styling -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <title>Student Dashboard</title>
+</head>
+<body>
+  <div class="container">
+    <h1>Welcome to the Student's Dashboard, <span id="welcomeUsername"></span>!</h1>
+    
+    <!-- Heading for teachers -->
+    <h2>Your Teachers:</h2>
+
+    <!-- Buttons for teachers -->
+    <div id="teachersButtons"></div>
+
+    <!-- Table to display contact and subject -->
+    <table id="teacherInfoTable" style="display:none;">
+      <tr>
+        <th>Subject</th>
+        <th>Contact</th>
+      </tr>
+      <tr id="teacherInfoRow">
+        <td id="teacherSubject"></td>
+        <td id="teacherContact"></td>
+      </tr>
+    </table>
+
+    <!-- Homework section -->
+    <div id="homeworkSection" style="display:none;">
+      <h2>Homework:</h2>
+      <div id="homeworkLinks"></div> <!-- Updated to contain quiz links -->
+    </div>
+
+    <!-- Button to view performance -->
+    <button id="viewPerformanceButton">View Your Performance</button>
+  </div>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const username = urlParams.get('username');
+    const capitalizedUsername = username.toUpperCase();
+    document.getElementById('welcomeUsername').innerText = capitalizedUsername;
+
+    // Fetch teachers' information when the page loads
+    window.onload = function () {
+      fetchTeachersInfo();
+    };
+
+    // Function to fetch teachers' information from the server
+    function fetchTeachersInfo() {
+      fetch('fetch_teacher_info.php')
+        .then(response => response.json())
+        .then(data => {
+          displayTeacherButtons(data);
+        })
+        .catch(error => {
+          console.error('Error fetching teachers information:', error);
+        });
+    }
+
+    // Function to display buttons for teachers
+    function displayTeacherButtons(teachersInfo) {
+      const teachersButtonsContainer = document.getElementById('teachersButtons');
+
+      teachersInfo.forEach(teacher => {
+        const teacherButton = document.createElement('button');
+        teacherButton.textContent = teacher.teacherName;
+        teacherButton.classList.add('teacher-button'); // Add class for styling
+        teacherButton.addEventListener('click', () => displayTeacherInfo(teacher));
+        teachersButtonsContainer.appendChild(teacherButton);
+      });
+    }
+
+    // Function to display contact, subject, and homework info
+    function displayTeacherInfo(teacher) {
+      const teacherSubject = document.getElementById('teacherSubject');
+      const teacherContact = document.getElementById('teacherContact');
+      const teacherInfoTable = document.getElementById('teacherInfoTable');
+      const homeworkSection = document.getElementById('homeworkSection');
+      const homeworkLinks = document.getElementById('homeworkLinks'); // Updated to contain quiz links
+
+      // Display teacher's subject and contact
+      teacherSubject.textContent = teacher.subject;
+      teacherContact.textContent = teacher.contact;
+
+      // Show the table
+      teacherInfoTable.style.display = 'table';
+
+      // Check if the teacher has created quizzes
+      if (teacher.quizCount > 0) {
+        // Show the homework section
+        homeworkSection.style.display = 'block';
+
+        // Clear any previous quiz links
+        homeworkLinks.innerHTML = '';
+
+        // Generate and display quiz links
+        for (let i = 1; i <= teacher.quizCount; i++) {
+          const quizLink = document.createElement('a');
+          quizLink.href = `quiz_attempt1.php?teacher=${teacher.teacherName}&quiz=${i}`;
+          quizLink.textContent = `Quiz ${i}`;
+          const br = document.createElement('br');
+          homeworkLinks.appendChild(quizLink);
+          homeworkLinks.appendChild(br);
+        }
+      } else {
+        // If the teacher has no quizzes, hide the homework section
+        homeworkSection.style.display = 'none';
+      }
+    }
+
+    // Event listener for the "View Your Performance" button
+    const viewPerformanceButton = document.getElementById('viewPerformanceButton');
+    viewPerformanceButton.addEventListener('click', () => {
+      window.location.href = 'student_evaluation.html'; // Redirect to performance evaluation page
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teacher Sign Up</title>
+  <link rel="stylesheet" href="style2_.css"> 
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <h2>TEACHER SIGN UP</h2>
+    <a href="homepage1.html">HOME</a>
+  </header>
+
+  <form id="teacherInfoForm" action="teachers_info1.php" method="post">
+    <label for="teacherName">Teacher Name (User Name):</label>
+    <input type="text" id="teacherName" name="teacherName" required>
+
+    <label for="subject">Subject:</label>
+    <input type="text" id="subject" name="subject" required>
+   
+    <label for="contact">Contact Details (10 digits):</label>
+    <input type="tel" id="contact" name="contact" pattern="[0-9]{10}" required>
+    
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required>
+
+    <button type="button" onclick="submitTeacherInfo()">Submit</button>
+  </form>
+
+  <script>
+    function submitTeacherInfo() {
+      var teacherName = document.getElementById('teacherName').value;
+      var subject = document.getElementById('subject').value;
+      var contact = document.getElementById('contact').value;
+      var password = document.getElementById('password').value;
+
+      var formData = new FormData();
+      formData.append('teacherName', teacherName);
+      formData.append('subject', subject);
+      formData.append('contact', contact);
+      formData.append('password', password);
+
+      fetch('teachers_info1.php', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.text();
+      })
+      .then(data => {
+        console.log('Server Response:', data);
+        alert(data); // Display server response
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert("An error occurred. Please try again later.");
+      });
+    }
+  </script>
+</body>
+</html>

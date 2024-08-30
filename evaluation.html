@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="evaluation_style_teacher.css"> <!-- Link to the CSS file for styling -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <title>Evaluation</title>
+</head>
+<body>
+  <div class="container">
+    <h1 id="evaluation-heading">Evaluation</h1>
+    <div id="evaluation-details"></div>
+  </div>
+
+  <script>
+    // Fetch evaluation data from the server
+    fetch('fetch_student_evaluation.php')
+      .then(response => response.json())
+      .then(data => {
+        displayEvaluation(data);
+      })
+      .catch(error => {
+        console.error('Error fetching student evaluation data:', error);
+      });
+
+    // Function to display student evaluation data
+    function displayEvaluation(data) {
+      const evaluationDetails = document.getElementById('evaluation-details');
+
+      // Group data by quiz number
+      const groupedData = groupByQuizNumber(data);
+
+      // Iterate over grouped data and create tables for each quiz number
+      for (const [quizNumber, students] of Object.entries(groupedData)) {
+        const table = document.createElement('table');
+        table.innerHTML = `
+          <caption><span class="quiz-number">Quiz Number: ${quizNumber}</span></caption>
+          <tr>
+            <th>Student Name</th>
+            <th>Total Marks</th>
+            <th>Marks Obtained</th>
+            <th>Date and Time</th>
+          </tr>
+          ${students.map(student => `
+            <tr>
+              <td>${student.student_name}</td>
+              <td>${student.total_marks}</td>
+              <td>${student.marks_obtained}</td>
+              <td>${new Date(student.attempt_date).toLocaleString()}</td>
+            </tr>
+          `).join('')}
+        `;
+        evaluationDetails.appendChild(table);
+      }
+    }
+
+    // Function to group data by quiz number
+    function groupByQuizNumber(data) {
+      return data.reduce((grouped, student) => {
+        if (!grouped[student.quiz_number]) {
+          grouped[student.quiz_number] = [];
+        }
+        grouped[student.quiz_number].push(student);
+        return grouped;
+      }, {});
+    }
+  </script>
+</body>
+</html>

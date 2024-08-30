@@ -1,0 +1,140 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignment Evaluation Hub</title>
+    <link rel="stylesheet"  type="text/css" href="style_1_.css"> 
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="navbar">
+            <img src="logo.png" class="logo"> 
+            <header>
+                <button onclick="document.getElementById('options').style.display='block'">&#9776</button>
+            </header>
+        </div>
+        <div class="overlay" id="options">
+            <span id="close-btn" onclick="document.getElementById('options').style.display='none'">&times</span>
+            <a href="#" onclick="document.getElementById('student-login-box').style.display='block'; document.getElementById('options').style.display='none'">Student</a><a href="#" onclick="document.getElementById('teacher-login-box').style.display='block'; document.getElementById('options').style.display='none'">Teacher</a>
+        </div>
+        <div class="overlay" id="student-login-box">
+            <span id="close-btn" onclick="document.getElementById('student-login-box').style.display='none'">&times</span>
+            <h3 id="login-header-student">Student Login</h3>
+            <form id="login-form-student">
+                <label for="username-student">Username:</label>
+                <input type="text" id="username-student" name="username-student" required>
+                <label for="password-student">Password:</label>
+                <input type="password" id="password-student" name="password-student" required>
+                <button type="button" onclick="submitStudentLogin()">Login</button>
+            </form>
+            <p>Don't have an account? <a href="students_make_acc1.html">Create account</a></p>
+        </div>
+
+        <div class="overlay" id="teacher-login-box">
+            <span id="close-btn" onclick="document.getElementById('teacher-login-box').style.display='none'">&times</span>
+            <h3 id="login-header-teacher">Teacher Login</h3>
+            <form id="login-form-teacher">
+                <label for="username-teacher">Username:</label>
+                <input type="text" id="username-teacher" name="username-teacher" required>
+                <label for="password-teacher">Password:</label>
+                <input type="password" id="password-teacher" name="password-teacher" required>
+                
+                <button type="button" onclick="submitTeacherLogin()">Login</button>
+            </form>
+            <p>Don't have an account? <a href="teachers_make_acc1.html">Create account</a></p>
+        </div>
+    
+        
+
+
+        <div class="row">
+            <div class="col">
+                <h1><div class="smoke" >
+                    <ul>
+                        
+                        <li>D</li><li>I</li><li>S</li><li>C</li><li>O</li><li>V</li><li>E</li><li>R</li>
+                        <li>T</li><li>H</li><li>E</li>
+                        <li>P</li><li>O</li><li>W</li><li>E</li><li>R</li>
+                        <li>O</li><li>F</li>
+                        <li>F</li><li>E</li><li>E</li><li>D</li><li>B</li><li>A</li><li>C</li><li>K</li>
+                        
+                    </ul> 
+                           
+                </div>
+                <p>Welcome to our realm, where words take flight,<br>An assignment evaluation website, shining bright.<br>Together, we'll weave verses, create a new art,<br>
+                    On this assignment evaluation website, let's make a start.</p>
+                <button type="button"><a href="explore.html">Explore</a></button>
+            </div>
+            <div class="col"></div>
+        </div>
+    </div>
+    <script>
+        function submitTeacherLogin() {
+    var username = document.getElementById('username-teacher').value;
+    var password = document.getElementById('password-teacher').value;
+
+    var formData = new FormData();
+    formData.append('username', username);
+    formData.append('password', password);
+
+    // Send AJAX request to check teacher login against MySQL database
+    fetch('check_teacher_login1.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.isValidLogin) {
+            // Redirect to teachers_dashboard.html on successful login
+            window.location.href = 'teachers_dashboard1.html?username=' + encodeURIComponent(username);
+        } else {
+            // Show alert for incorrect username or password
+            alert('Incorrect username or password. Please try again.');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred. Please try again later.');
+    });
+}
+
+function submitStudentLogin() {
+    var username = document.getElementById('username-student').value;
+    var password = document.getElementById('password-student').value;
+
+    var formData = new FormData();
+    formData.append('username', username);
+    formData.append('password', password);
+
+    // Send AJAX request to check student login against MySQL database
+    fetch('check_student_login1.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.isValidLogin) {
+            // Redirect to students_dashboard.html on successful login
+            window.location.href = 'students_dashboard1.html?username=' + encodeURIComponent(username);
+        } else {
+            // Show alert for incorrect username or password
+            alert('Incorrect username or password. Please try again.');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred. Please try again later.');
+    });
+}
+
+        
+    
+        
+</script>
+</body>
+</html>
+
+   
+   

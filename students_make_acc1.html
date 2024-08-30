@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Sign Up</title>
+  <link rel="stylesheet" href="style2_.css"> 
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <header>
+    <h2>STUDENT SIGN UP</h2>
+    <a href="homepage1.html">HOME</a>
+  </header>
+
+  <form id="studentInfoForm" action="students_info1.php" method="post">
+    <label for="studentName">Student Name (Username):</label>
+    <input type="text" id="studentName" name="studentName" required>
+
+    <label for="contact">Contact Details:</label>
+    <input type="text" id="contact" name="contact" required>
+    
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required>
+
+    <button type="button" onclick="submitStudentInfo()">Submit</button>
+  </form>
+
+  <script>
+    function submitStudentInfo() {
+      // Collect information from the form
+      var studentName = document.getElementById('studentName').value;
+      var contact = document.getElementById('contact').value;
+      var password = document.getElementById('password').value;
+      
+      var formData = new FormData();
+      formData.append('studentName', studentName);
+      formData.append('contact', contact);
+      formData.append('password', password);
+      
+      fetch('students_info1.php', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.text();
+      })
+      .then(data => {
+        console.log('Server Response:', data);
+
+        // Check if the response contains a success message
+        if (data.includes('Student information submitted successfully!')) {
+          alert("Student information submitted successfully!");
+        } else {
+          alert("Failed to submit student information. Please try again.");
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert("An error occurred. Please try again later.");
+      });
+    }
+  </script>
+</body>
+</html>

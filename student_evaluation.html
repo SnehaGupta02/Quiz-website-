@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="evaluation_style.css"> <!-- Link to the CSS file for styling -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <title>Student Performance Evaluation</title>
+</head>
+<body>
+  <div class="container">
+    <h1 id="evaluation-heading">Let's see your performance!</h1>
+    <div id="performance-details"></div>
+     
+  </div>
+
+  <script>
+    // Fetch student performance data from the server
+    fetch('fetch_student_performance.php')
+      .then(response => response.json())
+      .then(data => {
+        displayPerformance(data);
+      })
+      .catch(error => {
+        console.error('Error fetching student performance data:', error);
+      });
+  
+    // Function to display student performance
+    function displayPerformance(data) {
+      const performanceDetails = document.getElementById('performance-details');
+      
+      // Group data by teacher_name
+      const groupedData = groupByTeacherName(data);
+      
+      // Loop through grouped data
+      for (const [teacher_name, students] of Object.entries(groupedData)) {
+        const table = document.createElement('table');
+        table.innerHTML = `
+          <caption><span class="teacher-name">Teacher Name: ${teacher_name}</span></caption>
+          <tr>
+            
+            <th>Quiz Number</th>
+            <th>Total Marks</th>
+            <th>Marks Obtained</th>
+            <th>Date and Time</th>
+          </tr>
+          ${students.map(student => `
+            <tr>
+              
+              <td>${student.quiz_number}</td>
+              <td>${student.total_marks}</td>
+              <td>${student.marks_obtained}</td>
+              <td>${new Date(student.attempt_date).toLocaleString()}</td>
+            </tr>
+          `).join('')}
+        `;
+        performanceDetails.appendChild(table);
+      }
+    }
+
+    // Function to group data by quiz number
+    function groupByTeacherName(data) {
+      return data.reduce((grouped, student) => {
+        if (!grouped[student.teacher_name]) {
+          grouped[student.teacher_name] = [];
+        }
+        grouped[student.teacher_name].push(student);
+        return grouped;
+      }, {});
+    }
+  </script>
+</body>
+</html>
+
+  </script>
+  
+</body>
+</html>

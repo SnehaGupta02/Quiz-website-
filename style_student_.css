@@ -1,0 +1,77 @@
+/* style_student.css */
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
+  background: url('student_dashboard.jpg') center/cover no-repeat;
+  color: #333; /* Default text color */
+}
+
+/* Add this CSS to increase button size */
+button {
+  padding: 10px 20px; /* Adjust padding as needed */
+  font-size: 16px;   /* Adjust font size as needed */
+  margin: 5px;       /* Add margin to create space between buttons */
+}
+
+.container {
+  max-width: 800px;
+  margin: 50px auto;
+  padding: 20px;
+  background: #f9f9f9; /* Light gray background */
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Subtle box shadow */
+}
+
+h1 {
+  color: black; /* Green color for headings */
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+#welcomeUsername {
+  color: #3498db; /* Sky blue color for welcome username */
+  font-size: 24px;
+  font-weight: bold;
+}
+
+p {
+  color: #4CAF50; /* Green color for paragraphs */
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+.teacher-button {
+  cursor: pointer;
+  margin-bottom: 10px;
+  padding: 10px;
+  background: #3498db; /* Sky blue background for teacher buttons */
+  color: #fff; /* White text color */
+  border-radius: 5px;
+  transition: background 0.3s ease;
+}
+
+.teacher-button:hover {
+  background: #2980b9; /* Darker blue on hover effect */
+}
+
+#view-performance-button {
+  cursor: pointer;
+  margin-top: 20px; /* Adjust spacing from teacher buttons */
+  padding: 12px 24px; /* Larger padding for more emphasis */
+  background: #4CAF50; /* Green background color for performance button */
+  color: #fff; /* White text color */
+  border: none;
+  border-radius: 5px;
+  font-size: 18px; /* Larger font size for more visibility */
+  transition: background 0.3s ease;
+}
+
+#view-performance-button:hover {
+  background: #45a049; /* Darker green on hover effect */
+}
